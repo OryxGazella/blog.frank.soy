@@ -22,5 +22,16 @@
   position: relative;
   width: 100%;
   height: 180px;
+  h1{
+  }
+  h2{
+    width: 40%;
+  }
+}
+
+article.single-article{
+  border: solid 3px;
+  padding: 10px;
+  @include border-radius(10px);
 }
 

@@ -1,2 +1,7 @@
-<h3><%= @post.title %></h3>
-<%= raw(@post.rendered_body) %>
+<article class="single-article">
+  <header>
+    <h3><%= @post.title %></h3>
+    <h4><time datetime="<%= @post.created_at%>"><%= @post.created_at.to_s(:pretty) %></time></h4>
+  </header>
+  <%= raw(@post.rendered_body) %>
+</article>
