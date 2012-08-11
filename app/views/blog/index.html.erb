@@ -1,9 +1,14 @@
-<h1>Frank's blog</h1>
-<% @posts.each do |post|%>
-  <article>
-  <header>
-      <h1><%= post.title %></h1>
-  </header>
-      <%= raw(post.rendered_body) %>
-  </article>
-<% end %> 
+<section class="thick rounded container">
+<header>
+  <h1>Recent entries</h1>
+</header>
+  <% @posts.each do |post|%>
+    <article class="thin rounded container">
+      <header>
+            <h1><%= post.title %></h1>
+            <h4><time datetime="<%= post.created_at%>"><%= post.created_at.to_s(:pretty) %></time></h4>
+      </header>
+          <%= raw(post.rendered_body) %>
+    </article>
+  <% end %> 
+</section>

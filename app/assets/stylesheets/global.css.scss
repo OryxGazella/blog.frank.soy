@@ -29,9 +29,23 @@
   }
 }
 
-article.single-article{
-  border: solid 3px;
-  padding: 10px;
+.rounded{
   @include border-radius(10px);
+}
+
+.thin{
+  border: solid 3px;
+}
+
+.thick{
+  border: solid 5px;
+}
+
+section {
+  padding: 10px;
+}
+
+.container{
+  padding: 10px;
 }
 
