@@ -1,0 +1,26 @@
+@import "compass/css3/border-radius";
+
+#wrap{
+
+  width: 68em;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#logo{
+  position: absolute;
+  display: block;
+  top: 8px;
+  left: 24em;
+  width: 150px;
+  height: 150px;
+  background: url('Gazella_Logo.jpg');
+  @include border-radius(10px);
+}
+
+#main{
+  position: relative;
+  width: 100%;
+  height: 180px;
+}
+

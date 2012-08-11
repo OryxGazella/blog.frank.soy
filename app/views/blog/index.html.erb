@@ -1,7 +1,9 @@
 <h1>Frank's blog</h1>
-<% @entries.each do |entry|%>
-  <h3><%= entry.title %></h3>
-  <p>
-    <%= entry.body %>
-  </p> 
+<% @posts.each do |post|%>
+  <article>
+  <header>
+      <h1><%= post.title %></h1>
+  </header>
+      <%= raw(post.rendered_body) %>
+  </article>
 <% end %> 

@@ -1,5 +1,5 @@
 class BlogController < ApplicationController
   def index
-    @entries = BlogEntry.all
+    @posts = Post.all
   end
 end
