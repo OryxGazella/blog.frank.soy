@@ -1,4 +1,4 @@
-<section class="thick rounded container">
+<section class="thick rounded container" id="recent-posts">
 <header>
   <h1>Recent entries</h1>
 </header>
@@ -6,7 +6,7 @@
     <article class="thin rounded container">
       <header>
             <h1><%= post.title %></h1>
-            <h4><time datetime="<%= post.created_at%>"><%= post.created_at.to_s(:pretty) %></time></h4>
+            <h4><time datetime="<%= post.created_at.iso8601%>"><%= post.created_at.to_s(:pretty) %></time></h4>
       </header>
           <%= raw(post.rendered_body) %>
     </article>
