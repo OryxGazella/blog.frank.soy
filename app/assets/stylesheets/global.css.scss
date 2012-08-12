@@ -15,7 +15,6 @@
   width: 150px;
   height: 150px;
   background: url('Gazella_Logo.jpg');
-  @include border-radius(10px);
 }
 
 #main{
@@ -25,7 +24,7 @@
   h1{
   }
   h2{
-    width: 40%;
+    width: 35%;
   }
 }
 
