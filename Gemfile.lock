@@ -65,6 +65,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.19)
     multi_json (1.3.6)
+    newrelic_rpm (3.4.1)
     pg (0.14.0)
     polyglot (0.3.3)
     pygmentize (0.0.3)
@@ -126,6 +127,7 @@ DEPENDENCIES
   compass-rails
   faker
   jquery-rails
+  newrelic_rpm
   pg
   pygmentize
   rails (= 3.2.7)
