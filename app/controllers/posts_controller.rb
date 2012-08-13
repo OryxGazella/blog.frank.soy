@@ -80,6 +80,10 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
+    if params[:auth_token] != "s#<{)%/~,,|{/1+C[w@.6'18d72o_" 
+      redirect_to :action => :not_allowed, :controller => :errors
+      return
+    end
     @post = Post.find(params[:id])
     @post.destroy
 
