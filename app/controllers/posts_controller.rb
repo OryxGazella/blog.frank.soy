@@ -40,6 +40,10 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+    if params[:auth_token] != "s#<{)%/~,,|{/1+C[w@.6'18d72o_" 
+      redirect_to :action => :not_allowed, :controller => :errors
+      return
+    end
     @post = Post.new(params[:post])
 
     respond_to do |format|
@@ -56,6 +60,10 @@ class PostsController < ApplicationController
   # PUT /posts/1
   # PUT /posts/1.json
   def update
+    if params[:auth_token] != "s#<{)%/~,,|{/1+C[w@.6'18d72o_" 
+      redirect_to :action => :not_allowed, :controller => :errors
+      return
+    end
     @post = Post.find(params[:id])
 
     respond_to do |format|
