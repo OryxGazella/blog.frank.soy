@@ -13,5 +13,5 @@ fjs.parentNode.insertBefore(js, fjs);
     <h4><time datetime="<%= @post.created_at%>"><%= @post.created_at.to_s(:pretty) %></time></h4>
   </header>
   <%= raw(@post.rendered_body) %>
-  <div class="fb-comments" data-href="<%= url_for @post %>" data-num-posts="2"></div>
+  <div class="fb-comments" data-href="http://gazel.la/posts/<%= @post.id %>" data-num-posts="2"></div>
 </article>
