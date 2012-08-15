@@ -1,7 +1,17 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=132814803529169";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 <article class="thin rounded container">
   <header>
     <h3><%= @post.title %></h3>
     <h4><time datetime="<%= @post.created_at%>"><%= @post.created_at.to_s(:pretty) %></time></h4>
   </header>
   <%= raw(@post.rendered_body) %>
+  <div class="fb-comments" data-href="<%= url_for @post %>" data-num-posts="2"></div>
 </article>
