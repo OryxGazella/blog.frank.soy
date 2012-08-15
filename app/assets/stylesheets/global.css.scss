@@ -51,3 +51,10 @@ section {
 #recent-posts article{
   margin-bottom: 10px;
 }
+
+article.abstract a {
+  position: relative;
+  float: right;
+  right: 10px;
+  bottom: 10px;
+}

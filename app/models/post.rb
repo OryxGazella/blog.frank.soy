@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   self.per_page = 5
-  attr_accessible :body, :rendered_body, :title
+  attr_accessible :body, :rendered_body, :title, :abstract
   before_save :render_body
 
   private
@@ -10,6 +10,7 @@ class Post < ActiveRecord::Base
     extensions = {fenced_code_blocks: true}
     redcarpet = Redcarpet::Markdown.new(renderer, extensions)
     self.rendered_body = redcarpet.render self.body
+    self.rendered_abstract = redcarpet.render self.abstract
   end
 end
 
