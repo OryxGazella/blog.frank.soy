@@ -10,6 +10,7 @@ class Post < ActiveRecord::Base
     extensions = {fenced_code_blocks: true}
     redcarpet = Redcarpet::Markdown.new(renderer, extensions)
     self.rendered_body = redcarpet.render self.body
+    self.abstract ||= self.body[0,900]
     self.rendered_abstract = redcarpet.render self.abstract
   end
 end
