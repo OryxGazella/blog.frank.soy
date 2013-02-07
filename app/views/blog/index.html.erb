@@ -9,7 +9,7 @@
             <h4><time datetime="<%= post.created_at.iso8601%>"><%= post.created_at.to_s(:pretty) %></time></h4>
       </header>
           <%= raw(post.rendered_abstract) %>
-          <%= link_to "read full article", post %>
+          <%= link_to "read full article", post, :class => 'read-full' %>
 
     </article>
   <% end %> 
