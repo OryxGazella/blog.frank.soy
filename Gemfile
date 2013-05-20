@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
+	gem 'pg'
   gem 'sqlite3'
   gem 'faker'
 end
@@ -25,7 +26,7 @@ end
 
 group :production do
 	gem 'pg'
-        gem 'newrelic_rpm'
+  gem 'newrelic_rpm'
 end
 
 gem 'jquery-rails'
