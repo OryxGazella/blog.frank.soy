@@ -4,7 +4,7 @@ import org.junit.Test
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 
-class ApplicationControllerTest {
+public class ApplicationControllerTest {
     Test
     fun testHello() {
         val applicationController = ApplicationController()
