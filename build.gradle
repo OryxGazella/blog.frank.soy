@@ -34,9 +34,9 @@ sourceSets {
 }
 
 dependencies {
+    compile 'postgresql:postgresql:9.0-801.jdbc4'
     compile 'org.jetbrains.kotlin:kotlin-stdlib:0.12.200'
     compile "org.springframework.boot:spring-boot-starter-web:1.2.4.RELEASE"
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("com.h2database:h2")
     testCompile 'org.springframework.boot:spring-boot-starter-test:1.2.4.RELEASE'
 }
