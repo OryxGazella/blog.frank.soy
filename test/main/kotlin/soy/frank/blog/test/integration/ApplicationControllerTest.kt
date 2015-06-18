@@ -23,8 +23,8 @@ public class ApplicationControllerTest {
     fun shouldAllowHttpGetFromRoot() {
         val rt = RestTemplate()
         val resp = rt.getForEntity("http://localhost:$port/", javaClass<String>())
-        assertTrue("Expecting a page that a statement that this is my blog",
-                resp.getBody().contains("<h1>Frank's Blog</h1>"))
+        assertTrue("Expecting an html page",
+                resp.getBody().contains("<title>Frank's Blog</title>"))
     }
 
 }
