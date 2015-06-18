@@ -10,6 +10,7 @@ import soy.frank.blog.Application
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.springframework.beans.factory.annotation.Value
+import org.junit.Assert.*
 
 RunWith(SpringJUnit4ClassRunner::class)
 SpringApplicationConfiguration(classes = arrayOf(Application::class))
@@ -22,7 +23,8 @@ public class ApplicationControllerTest {
     fun shouldAllowHttpGetFromRoot() {
         val rt = RestTemplate()
         val resp = rt.getForEntity("http://localhost:$port/", javaClass<String>())
-        assertThat(resp.getBody(), equalTo("Hello from Kotlin"))
+        assertTrue("Expecting a page that a statement that this is my blog",
+                resp.getBody().contains("<h1>Frank's Blog</h1>"))
     }
 
 }
