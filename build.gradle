@@ -14,7 +14,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'java'
 
 springBoot {
-    mainClass = 'soy.frank.blog.BlogPackage'
+    mainClass = 'soy.frank.blog.ApplicationKt'
 }
 
 repositories {
