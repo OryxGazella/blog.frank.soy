@@ -6,16 +6,16 @@ import org.springframework.web.bind.annotation.RestController
 import soy.frank.blog.models.Post
 import soy.frank.blog.repositories.PostRepository
 
-RestController
+@RestController
 class PostsController {
     private val postRepository: PostRepository
 
-    Autowired
+    @Autowired
     constructor(postRepository: PostRepository){
        this.postRepository = postRepository
     }
 
-    RequestMapping("/posts")
+    @RequestMapping("/posts")
     fun index() : Iterable<Post> {
         return postRepository.findAll()
     }

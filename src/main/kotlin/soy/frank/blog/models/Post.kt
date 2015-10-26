@@ -4,18 +4,18 @@ import java.sql.Timestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
-Entity
-Table(name = "posts")
+@Entity
+@Table(name = "posts")
 data class Post(
-        Id
+        @Id
         val id: Long = -1,
         val title: String = "",
         val renderedBody: String = "",
-        Convert(converter = LocalDateTimePersistenceConverter::class)
+        @Convert(converter = LocalDateTimePersistenceConverter::class)
         val createdAt: LocalDateTime = LocalDateTime.MIN)
 
 
-Converter(autoApply = true)
+@Converter(autoApply = true)
 class LocalDateTimePersistenceConverter : AttributeConverter<LocalDateTime, Timestamp> {
     override fun convertToDatabaseColumn(attribute: LocalDateTime?): Timestamp? {
         return Timestamp.valueOf(attribute)

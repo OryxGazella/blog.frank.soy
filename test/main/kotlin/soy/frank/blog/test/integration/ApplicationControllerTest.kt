@@ -1,30 +1,28 @@
 package soy.frank.blog.test.integration
 
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.web.client.RestTemplate
 import soy.frank.blog.Application
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
-import org.springframework.beans.factory.annotation.Value
-import org.junit.Assert.*
 
-RunWith(SpringJUnit4ClassRunner::class)
-SpringApplicationConfiguration(classes = arrayOf(Application::class))
-WebIntegrationTest("server.port=0", "management.port=0")
+@RunWith(SpringJUnit4ClassRunner::class)
+@SpringApplicationConfiguration(classes = arrayOf(Application::class))
+@WebIntegrationTest("server.port=0", "management.port=0")
 public class ApplicationControllerTest {
-    Value("\${local.server.port}")
+    @Value("\${local.server.port}")
     val port = ""
 
-    Test
+    @Test
     fun shouldAllowHttpGetFromRoot() {
         val rt = RestTemplate()
-        val resp = rt.getForEntity("http://localhost:$port/", javaClass<String>())
+        val resp = rt.getForEntity("http://localhost:$port/", String::class.java)
         assertTrue("Expecting an html page",
-                resp.getBody().contains("<title>Frank's Blog</title>"))
+                resp.body.contains("<title>Frank's Blog</title>"))
     }
 
 }
