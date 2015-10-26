@@ -1,5 +1,6 @@
 # Maven
 log/
 target/
+build
 
 src/main/resources/public
