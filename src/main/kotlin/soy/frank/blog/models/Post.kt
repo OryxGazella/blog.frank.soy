@@ -8,7 +8,7 @@ import javax.persistence.*
 @Table(name = "posts")
 data class Post(
         @Id
-        val id: Long = -1,
+        val id: Int = -1,
         val title: String = "",
         val renderedBody: String = "",
         @Convert(converter = LocalDateTimePersistenceConverter::class)

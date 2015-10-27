@@ -1,12 +1,10 @@
 package soy.frank.blog
 
 import org.springframework.boot.SpringApplication
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.context.annotation.ComponentScan
+import org.springframework.boot.autoconfigure.SpringBootApplication
 
-@ComponentScan
-@EnableAutoConfiguration
-public class Application
+@SpringBootApplication
+public open class Application
 
 public fun main(args: Array<String>) {
     SpringApplication.run(Application::class.java, *args)
