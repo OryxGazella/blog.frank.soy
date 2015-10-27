@@ -9,7 +9,7 @@ The client app is written in emberjs for similar reasons.
 
 * gradle
 * ember-cli install with `npm install -g ember-cli`
-* Postgresql
+* Postgresql (for production spring profile)
 
 ## Test
 
