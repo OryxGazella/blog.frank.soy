@@ -16,8 +16,6 @@ class PostsController {
     }
 
     @RequestMapping("/posts")
-    fun index() : Iterable<Post> {
-        return postRepository.findAll()
-    }
+    fun index(): Iterable<Post> = postRepository.findAll()
 }
 
