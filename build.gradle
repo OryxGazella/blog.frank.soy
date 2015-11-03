@@ -37,7 +37,6 @@ sourceSets {
             srcDir "test/main/kotlin"
         }
     }
-    main.java.srcDirs += 'src/main/kotlin'
 }
 
 dependencies {
