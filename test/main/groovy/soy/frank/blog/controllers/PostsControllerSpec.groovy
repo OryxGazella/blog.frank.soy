@@ -1,6 +1,5 @@
-package controllers
+package soy.frank.blog.controllers
 
-import soy.frank.blog.controllers.PostsController
 import soy.frank.blog.models.Post
 import soy.frank.blog.repositories.PostRepository
 import spock.lang.Specification
