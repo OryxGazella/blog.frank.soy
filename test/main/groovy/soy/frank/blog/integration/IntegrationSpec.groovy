@@ -27,7 +27,7 @@ public class IntegrationSpec extends Specification {
     def "GET to /posts returns all posts"() {
         given:
         def rt = new TestRestTemplate()
-        def resp = rt.getForEntity("http://localhost:$port/posts", String.class)
+        def resp = rt.getForEntity("http://localhost:$port/api/posts", String.class)
 
         expect:
         prettyPrint(resp.body) ==

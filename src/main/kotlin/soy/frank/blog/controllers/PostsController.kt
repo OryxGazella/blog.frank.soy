@@ -15,7 +15,7 @@ class PostsController {
        this.postRepository = postRepository
     }
 
-    @RequestMapping("/posts")
+    @RequestMapping("/api/posts")
     fun index(): Iterable<Post> = postRepository.findAll()
 }
 
