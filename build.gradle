@@ -53,3 +53,17 @@ dependencies {
     testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
     testRuntime "org.spockframework:spock-spring:1.0-groovy-2.4"
 }
+
+task stage(type: Copy, dependsOn: [clean, build]) {
+  from jar.archivePath
+    into project.rootDir 
+    rename {
+      'app.jar'
+    }
+}
+
+stage.mustRunAfter(clean)
+
+clean << {
+    project.file('app.jar').delete()
+}
