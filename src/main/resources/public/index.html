@@ -1,1 +1,945 @@
-<title>Frank's Blog</title>
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Frank's Blog</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <link rel="stylesheet" href="./css/monokai.css">
+    <style type="text/css">
+        body {
+            background-color: rgb(0, 31, 44);
+            color: #C0C0C0;
+            border-image-outset: 0;
+            border-image-repeat: stretch;
+            border-image-slice: 100%;
+            border-image-source: none;
+            border-image-width: 1;
+            border: 2px solid #C0C0C0;
+        }
+
+        .highlight {
+            background-color: rgb(39, 40, 34);
+        }
+
+        header h1 {
+            padding-left: 0.3em;
+        }
+
+        a {
+            color: #C0C0C0;
+        }
+
+        .post-links {
+            padding: 2em 1em 0;
+        }
+
+        .site-branding {
+            line-height: 32px;
+            border-bottom: 2px solid #C0C0C0;
+        }
+
+        .post-link {
+            padding-bottom: 2em;
+        }
+
+        .post-link-title {
+            font-size: 2em;
+            margin-bottom: 0.2em;
+        }
+
+        .post-link-description {
+            font-family: Georgia, "Cambria", serif;
+            line-height: 1.8em;
+        }
+
+        .site-branding img {
+            padding: 0.3em;
+        }
+
+        .post-link-meta {
+            font-size: 90%;
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<header>
+    <div class="site-branding">
+        <div class="pure-g">
+
+            <div class="pure-u-1-4">
+                <img class="pure-img" src="./img/logo.svg" alt="logo">
+            </div>
+            <div class="pure-u-3-4">
+                <h1>blog.frank.soy</h1>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="post-links">
+    <section class="post-link">
+        <header class="post-link-header">
+            <h2 class="post-link-title">DTOs with care</h2>
+
+            <p class="post-link-meta">
+                <time datetime="2013-02-07T23:57:19Z">Mon, 9 Nov 2015 at 11:57pm</time>
+            </p>
+        </header>
+        <div class="post-link-description">
+            <h2>The problem</h2>
+
+            <p>I want to talk about some basic stuff, but it&#39;s something that I&#39;ve seen a great deal in the
+                wild. Badly designed data
+                objects. Let&#39;s take a sufficiently basic example:</p>
+
+            <p>We need to model students for some grading application. Simple enough!</p>
+
+            <p>You can follow along with the article by checking out the code from <a
+                    href="https://github.com/OryxGazella/dtos-with-care">here</a>.
+                There are additional tests in some of the examples that have been omitted from this post for the sake of
+                brevity.</p>
+
+            <p>We start off by capturing the students&#39; first names and last names as fields in an object.</p>
+
+            <div class="highlight"><pre>git checkout -f 01-plain-old-java-object
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span
+                    class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span
+                        class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span
+                        class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getLastName</span><span
+                        class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">lastName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setLastName</span><span
+                        class="o">(</span><span class="n">String</span> <span class="n">lastName</span><span
+                        class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">lastName</span> <span
+                        class="o">=</span> <span class="n">lastName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFirstName</span><span
+                        class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">firstName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setFirstName</span><span
+                        class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">)</span> <span
+                        class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">firstName</span> <span
+                        class="o">=</span> <span class="n">firstName</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>Okay, so what&#39;s wrong with this? Well, first and foremost, this is a data transfer object or a value
+                object.</p>
+
+            <ol>
+                <li>Should it have mutable state? <code>Probably not</code></li>
+                <li>Should it allow null values? <code>Probably not</code></li>
+                <li>Wait, shouldn&#39;t there be equals(), hashCode() and toString() methods defined? <code>Yes,
+                    sir!</code></li>
+            </ol>
+
+            <p>I&#39;ll talk about all these problems in turn and offer some solutions.</p>
+
+            <h2>A better way</h2>
+
+            <h3>Get rid of mutable state</h3>
+
+            <p>Mutable state is a big problem in systems. It makes it difficult to reason about the state of your
+                object, whether it&#39;s
+                been modified in a separate (or same) thread, whether some method has modified it and whether something
+                is null or not. The problems are there and they&#39;re real.</p>
+
+            <p>So this first step is to get rid of those pesky setters.</p>
+
+            <p>Chances are that your IDE is already warning you that these setters are unused, don&#39;t ignore these
+                warnings!</p>
+
+            <p>&quot;But Franky, <code>Jackson</code> needs those setters to deserialize the objects,&quot; you object.
+                Well, that&#39;s not true. Try it.
+                By default, <code>Jackson</code> will use field injection, though this is probably not the best way to
+                construct objects.</p>
+
+            <p>So here is our first major improvement:</p>
+
+            <div class="highlight"><pre>git checkout -f 02-remove-setters
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span
+                    class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">firstName</span><span
+                        class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span
+                        class="n">lastName</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Student</span><span class="o">(</span><span class="n">String</span> <span
+                        class="n">firstName</span><span class="o">,</span> <span class="n">String</span> <span
+                        class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">firstName</span> <span
+                        class="o">=</span> <span class="n">firstName</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">lastName</span> <span
+                        class="o">=</span> <span class="n">lastName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFirstName</span><span
+                        class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">firstName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getLastName</span><span
+                        class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">lastName</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>While we&#39;re at it. Let&#39;s get rid of the get prefix to all of these fields, we aren&#39;t a
+                JavaBean, so we don&#39;t
+                (necessarily) need to follow the JavaBean way.</p>
+
+            <div class="highlight"><pre>git checkout -f 03-un-java-bean
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span
+                    class="o">{</span>
+    <span class="c1">//...</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">firstName</span><span
+                        class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">firstName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">lastName</span><span
+                        class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">lastName</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <h3>Get rid of and/or limit the use of null</h3>
+
+            <p>Null is not your friend. You should ban null wherever possible in your system and make nulls overt where
+                you can&#39;t do so.</p>
+
+            <p>The situation is not helped by the fact that <a href="http://beanvalidation.org/1.0/spec/">JSR 303</a>
+                defines the <code>@NotNull</code>
+                annotation. This is rather unfortunate. Everything should be <code>@NotNull</code> by default, and
+                things that could ever possibly
+                be null should be marked by a <code>@Nullable</code> marker annotation.</p>
+
+            <p>Okay, let&#39;s think about things a bit and make the concession that not all people have last names --
+                think Fabio. So we
+                say that indeed last name could be null, but never the name.</p>
+
+            <p>I prefer these over constructors, as they can have an overt name. Joshua Bloch&#39;s
+                <a href="http://www.informit.com/store/effective-java-9780321356680">Effective Java</a> talks about this
+                in further detail.
+                It&#39;s <em>item 1,</em> in fact.</p>
+
+            <p>We also go ahead and create a marker interface to show our intent that the <code>lastName</code> field is
+                in fact nullable and mark
+                the constructor as package private. If you&#39;re of the lazy persuasion you can use one of the <code>@Nullable</code>
+                declarations
+                from libraries you use such as <code>Guava</code>.</p>
+
+            <div class="highlight"><pre>git checkout -f 04-thinking-about-null
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="o">...</span>
+<span class="nd">@Nullable</span>
+<span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">Student</span> <span
+                        class="nf">create</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span
+                        class="o">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span
+                        class="o">{</span>
+       <span class="k">if</span> <span class="o">(</span><span class="n">firstName</span> <span
+                        class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span
+                        class="k">throw</span> <span class="k">new</span> <span
+                        class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">&quot;Null firstName&quot;</span><span
+                        class="o">);</span>
+       <span class="k">return</span> <span class="k">new</span> <span class="nf">Student</span><span
+                        class="o">(</span><span class="n">firstName</span><span class="o">,</span> <span class="n">lastName</span><span
+                        class="o">);</span>
+<span class="o">}</span>
+<span class="o">...</span>
+</pre>
+            </div>
+            <p>And finally we mark the constructor as private.</p>
+
+            <p>Okay, great, but how do we ensure that we fail fast when deserializing junk? As we know, libraries such
+                as Jackson will
+                use reflection to populate your fields. This one is easy, we just annotate our method with the <code>@JsonCreator</code>
+                annotation
+                and the fields with the <code>@JsonProperty(&quot;fieldName&quot;)</code> property like so:</p>
+
+            <div class="highlight"><pre><span class="o">...</span>
+<span class="nd">@JsonCreator</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">Student</span> <span
+                        class="nf">create</span><span class="o">(</span>
+        <span class="nd">@JsonProperty</span><span class="o">(</span><span class="s">&quot;firstName&quot;</span><span
+                        class="o">)</span> <span class="n">String</span> <span class="n">firstName</span><span
+                        class="o">,</span>
+        <span class="nd">@JsonProperty</span><span class="o">(</span><span class="s">&quot;lastName&quot;</span><span
+                        class="o">)</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span
+                        class="o">{</span>
+        <span class="c1">//...</span>
+<span class="o">}</span>
+<span class="o">...</span>
+</pre>
+            </div>
+            <p>Controlling object deserialization through a method instead of relying on field injection also allows a
+                few fancy things.</p>
+
+            <p>In the case where the student object is being created with a user interface, it is quite reasonable to
+                throw an exception
+                and display an error message when a user tries to create a student with no first name (assuming the ui
+                derives its
+                validation from the objection creation code above). However, when the DTO is used for the purposes of
+                ferrying information
+                from one data source to another, it might be better to simply discard invalid objects.</p>
+
+            <p>Suppose that we are in the midst of a service that takes a bunch of students from one source, does a
+                lookup on another
+                system and aggregates the data. Suppose further, that for some or other reason, the model of the Student
+                is not properly
+                defined upstream. Such that it is possible to have the following returned from the data source:</p>
+
+            <div class="highlight"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;firstName&quot;</span><span class="o">:</span> <span class="s2">&quot;Fabio&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;firstName&quot;</span><span class="o">:</span> <span class="s2">&quot;Frank&quot;</span><span
+                        class="p">,</span>
+    <span class="s2">&quot;lastName&quot;</span><span class="o">:</span> <span class="s2">&quot;Smith&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;firstName&quot;</span><span class="o">:</span> <span class="s2">&quot;Fabio&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;lastName&quot;</span><span class="o">:</span> <span class="s2">&quot;Dracula&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre>
+            </div>
+            <p>We&#39;ll simulate how this gets deserialized with the following:
+                <code>bash
+                    git checkout -f 05-dealing-with-bad-data
+                </code></p>
+
+            <div class="highlight"><pre><span class="kd">private</span> <span class="n">Collection</span><span
+                    class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="nf">simulateBadDataFromApi</span><span
+                    class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span
+                        class="na">asList</span><span class="o">(</span>
+            <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span
+                        class="s">&quot;Fabio&quot;</span><span class="o">,</span> <span class="kc">null</span><span
+                        class="o">),</span>
+            <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span
+                        class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span
+                        class="o">),</span>
+            <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span
+                        class="s">&quot;Frank&quot;</span><span class="o">,</span> <span
+                        class="s">&quot;Smith&quot;</span><span class="o">),</span>
+            <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span
+                        class="s">&quot;Fabio&quot;</span><span class="o">,</span> <span class="kc">null</span><span
+                        class="o">),</span>
+            <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span
+                        class="kc">null</span><span class="o">,</span> <span class="s">&quot;Dracula&quot;</span><span
+                        class="o">));</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>So now we define a static instance of the student object called <code>invalidStudent</code> and instead
+                of throwing an
+                <code>IllegalArgumentException</code> we return this instance for the invalid Students.</p>
+
+            <div class="highlight"><pre><span class="o">...</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">Student</span> <span class="n">invalidStudent</span> <span
+                        class="o">=</span> <span class="k">new</span> <span class="nf">Student</span><span
+                        class="o">(</span><span class="s">&quot;Invalid&quot;</span><span class="o">,</span> <span
+                        class="s">&quot;Invalid&quot;</span><span class="o">);</span>
+<span class="o">...</span>
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="c1">//...</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">Student</span> <span
+                        class="nf">create</span><span class="o">(</span><span class="c1">//...) {</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">firstName</span> <span class="o">==</span> <span
+                        class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="n">invalidStudent</span><span
+                        class="o">;</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Student</span><span
+                        class="o">(</span><span class="n">firstName</span><span class="o">,</span> <span class="n">lastName</span><span
+                        class="o">);</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>After we add this, we can write the following test to verify that the <code>{}</code> and <code>{&#39;lastName&#39;:
+                &#39;Dracula&#39;}</code> objects have
+                been dropped:</p>
+
+            <div class="highlight"><pre><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">should_identify_invalid_data</span><span
+                        class="o">()</span> <span class="o">{</span>
+    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">Student</span><span
+                        class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="n">simulateBadDataFromApi</span><span
+                        class="o">().</span><span class="na">stream</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">s</span> <span
+                        class="o">-&gt;</span> <span class="n">s</span> <span class="o">!=</span> <span class="n">Student</span><span
+                        class="o">.</span><span class="na">invalidStudent</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span
+                        class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span
+                        class="o">());</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">students</span><span
+                        class="o">.</span><span class="na">size</span><span class="o">(),</span> <span
+                        class="n">is</span><span class="o">(</span><span class="mi">3</span><span class="o">));</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>The filter uses reference equality in its predicate <code>s != Student.invalidStudent</code>, which is
+                fine, since all the invalid
+                students return the same object instance.</p>
+
+            <p>After returning an invalid object instance when the validation rules fail, we also notice that there is a
+                duplicate,
+                Fabio, that we want to drop.</p>
+
+            <p>Okay, no problem, we&#39;ll just throw the result into a set and that should remove any duplicates. Well,
+                kind of...</p>
+
+            <h3>Equals and Hash Code</h3>
+
+            <p>The next biggest mistake I&#39;ve seen in DTOs is improper handling of <code>equals()</code> and <code>hashCode()</code>.
+                Either it&#39;s not implemented.
+                Only implemented for one or partially implemented. All of these can cause subtle but serious bugs.
+                Modifying the above
+                test to use a set instead of a list and expecting two elements results in a failure:</p>
+
+            <div class="highlight"><pre>git checkout -f 06-sets-fail
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">StudentTest</span> <span
+                    class="o">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span
+                        class="nf">should_identify_invalid_data</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Collection</span><span class="o">&lt;</span><span class="n">Student</span><span
+                        class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="n">simulateBadDataFromApi</span><span
+                        class="o">().</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span
+                        class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span> <span
+                        class="o">!=</span> <span class="n">Student</span><span class="o">.</span><span class="na">invalidStudent</span><span
+                        class="o">)</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span
+                        class="o">.</span><span class="na">toSet</span><span class="o">());</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">students</span><span class="o">.</span><span
+                        class="na">size</span><span class="o">(),</span> <span class="n">is</span><span
+                        class="o">(</span><span class="mi">2</span><span class="o">));</span>
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">students</span><span class="o">,</span> <span
+                        class="n">containsInAnyOrder</span><span class="o">(</span>
+                <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span
+                        class="o">(</span><span class="s">&quot;Fabio&quot;</span><span class="o">,</span> <span
+                        class="kc">null</span><span class="o">),</span>
+                <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span
+                        class="o">(</span><span class="s">&quot;Frank&quot;</span><span class="o">,</span> <span
+                        class="s">&quot;Smith&quot;</span><span class="o">)));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">Collection</span><span class="o">&lt;</span><span
+                        class="n">Student</span><span class="o">&gt;</span> <span
+                        class="nf">simulateBadDataFromApi</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span
+                        class="na">asList</span><span class="o">(</span>
+                <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span
+                        class="o">(</span><span class="s">&quot;Fabio&quot;</span><span class="o">,</span> <span
+                        class="kc">null</span><span class="o">),</span>
+                <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span
+                        class="o">(</span><span class="kc">null</span><span class="o">,</span> <span
+                        class="kc">null</span><span class="o">),</span>
+                <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span
+                        class="o">(</span><span class="s">&quot;Frank&quot;</span><span class="o">,</span> <span
+                        class="s">&quot;Smith&quot;</span><span class="o">),</span>
+                <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span
+                        class="o">(</span><span class="s">&quot;Fabio&quot;</span><span class="o">,</span> <span
+                        class="kc">null</span><span class="o">),</span>
+                <span class="n">Student</span><span class="o">.</span><span class="na">create</span><span
+                        class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">&quot;Dracula&quot;</span><span
+                        class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>The following test fails because hashCode and equals are not implemented. Easy enough, we hit our handy
+                &quot;generate&quot; button
+                in our IDE and ask it to roll us an equals and hashCode method, taking care to specify which fields are
+                non-null of
+                course. I&#39;m not going to show this code here, but this makes the test pass easily enough.</p>
+
+            <div class="highlight"><pre>git checkout -f 07-alt-insert
+</pre>
+            </div>
+            <p>The code has two main problems:</p>
+
+            <ol>
+                <li> We have no guarantee that when someone else comes on the project and they add fields to the student
+                    object that
+                    they will take care to update the equals and hashCode methods. Even if you have unit test that test
+                    for this
+                    specifically, you&#39;re in no way guaranteed that they will be cognisant of these new fields added,
+                    especially when
+                    object creation is done through multiple calls to setter methods.
+                </li>
+                <li> It&#39;s boilerplate code.</li>
+            </ol>
+
+            <p>Improper equals and hashCode can lead to some subtle but nasty bugs.</p>
+
+            <p>There&#39;s nothing like a fairly sized DTO which misses a single field in its equals() and hashCode()
+                implementation. This is
+                particularly pernicious as it is difficult to test equals and hashCode thoroughly, at least manually. I&#39;ve
+                had unit tests
+                fail for this exact reason, luckily in the most recent case the fallout was just a test failing, which
+                led me to fixing
+                the underlying problem...</p>
+
+            <p>A colleague of mine recently gave a lightning talk about boilerplate code and how one should take steps
+                to avoid writing
+                it manually, or even avoid writing it at all.</p>
+
+            <p>I fully agree with this view and we&#39;ve identified a few libraries that can solve this problem. Except
+                for the last of
+                these which is a language...</p>
+
+            <h4>Lombok</h4>
+
+            <p>I was introduced to <code>Lombok</code> when I joined my first Java project. I was racking my brain as to
+                why my IDE would not
+                compile the project. I was still wrapping things up on my previous project and was not sitting with the
+                other (30 man!)
+                development team. After roping in one of the developers I found out that I would need to install the
+                lombok plugin for
+                eclipse to realise that getters and setters were being synthesized.</p>
+
+            <p>The entirety of what we&#39;re trying to achieve can be done as follows using <code>Lombok</code></p>
+
+            <div class="highlight"><pre>git checkout -f 08-lombok
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span
+                        class="n">Student</span> <span class="n">invalidStudent</span> <span class="o">=</span> <span
+                        class="k">new</span> <span class="nf">Student</span><span class="o">(</span><span class="s">&quot;Invalid&quot;</span><span
+                        class="o">,</span> <span class="s">&quot;Invalid&quot;</span><span class="o">);</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">firstName</span><span
+                        class="o">;</span>
+    <span class="nd">@Nullable</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span
+                        class="n">lastName</span><span class="o">;</span>
+
+    <span class="nd">@JsonCreator</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Student</span> <span
+                        class="nf">create</span><span class="o">(</span><span class="nd">@JsonProperty</span><span
+                        class="o">(</span><span class="s">&quot;firstName&quot;</span><span class="o">)</span> <span
+                        class="n">String</span> <span class="n">firstName</span><span class="o">,</span>
+                                 <span class="nd">@JsonProperty</span><span class="o">(</span><span class="s">&quot;lastName&quot;</span><span
+                        class="o">)</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span
+                        class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">firstName</span> <span
+                        class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span
+                        class="k">return</span> <span class="n">invalidStudent</span><span class="o">;</span>
+        <span class="n">Student</span> <span class="n">student</span> <span class="o">=</span> <span
+                        class="k">new</span> <span class="nf">Student</span><span class="o">(</span><span class="n">firstName</span><span
+                        class="o">,</span> <span class="n">lastName</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">student</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>Or only the <code>Lombok</code> relevant part:</p>
+
+            <div class="highlight"><pre><span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">firstName</span><span
+                        class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span
+                        class="n">lastName</span><span class="o">;</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>Caveats:</p>
+
+            <p>The <code>Lombok</code> site&#39;s written example has a very old version of <code>Lombok</code> in the
+                dependency, I was a bit confused when trying
+                to get the application to run for this example.</p>
+
+            <p>Since <code>Lombok</code> does an AST transform (modifying the bytecode during compile time), you&#39;ll
+                need an IDE plugin or else
+                your IDE will moan. (Compile still works fine even with the plugin disabled in <code>IntelliJ</code>)
+            </p>
+
+            <p><code>Lombok</code> does not care about the <code>@Nullable</code> interface. Instead, a
+                <code>@NotNull</code> annotation should be supplied to the fields
+                you don&#39;t want to be null, :-(.</p>
+
+            <p>What you may be after is something that will generate and
+                update your boilerplate code for you.</p>
+
+            <h4>AutoValue</h4>
+
+            <p><a href="https://github.com/google/auto/tree/master/value">AutoValue</a> was the first of these code
+                generators that I worked with.</p>
+
+            <p>The above example would be done as follows:</p>
+
+            <div class="highlight"><pre>git checkout -f 09-auto-value
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="nd">@AutoValue</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span
+                        class="nc">Student</span> <span class="o">{</span>
+
+    <span class="n">Student</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Student</span> <span class="n">invalidStudent</span> <span
+                        class="o">=</span> <span class="k">new</span> <span class="nf">AutoValue_Student</span><span
+                        class="o">(</span><span class="s">&quot;Invalid&quot;</span><span class="o">,</span> <span
+                        class="s">&quot;Invalid&quot;</span><span class="o">);</span>
+
+    <span class="nd">@JsonCreator</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Student</span> <span
+                        class="nf">create</span><span class="o">(</span>
+            <span class="nd">@JsonProperty</span><span class="o">(</span><span
+                        class="s">&quot;firstName&quot;</span><span class="o">)</span> <span
+                        class="n">String</span> <span class="n">firstName</span><span class="o">,</span>
+            <span class="nd">@JsonProperty</span><span class="o">(</span><span
+                        class="s">&quot;lastName&quot;</span><span class="o">)</span> <span
+                        class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">firstName</span> <span
+                        class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span
+                        class="k">return</span> <span class="n">invalidStudent</span><span class="o">;</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">AutoValue_Student</span><span
+                        class="o">(</span><span class="n">firstName</span><span class="o">,</span> <span class="n">lastName</span><span
+                        class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">firstName</span><span
+                        class="o">();</span>
+
+    <span class="nd">@Nullable</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">lastName</span><span
+                        class="o">();</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>This is pretty succinct, and to nobody&#39;s surprise, the unit test above still passes. Since firstName
+                is not marked with
+                nullable, the generated constructor in the class AutoValue_Student does a null check on firstName but
+                not on last name.</p>
+
+            <p>Similarly, hashCode does not check for null on the firstName but does on the lastName. Here we see
+                another benefit of
+                immutable objects. We can reason about the state of an object that does not have a setter.</p>
+
+            <p>There are two caveats worth mentioning.</p>
+
+            <ol>
+                <li>It&#39;s considered best practice to make a package private constructor to discourage subclassing of
+                    the abstract class.
+                </li>
+                <li>If you are serializing the object and you&#39;ve done away with the getX convention you have a to
+                    annotate your accessor
+                    methods with @JsonProperty as well. This is a Jackson thing more than anything else, so perhaps it
+                    does not really
+                    relate to AutoValue.
+                </li>
+            </ol>
+
+            <h4>Immutables 2.0</h4>
+
+            <p>In terms of features <a href="http://immutables.org"><code>Immutables 2.0</code></a> gets my vote for
+                best in class. It&#39;s very similar to AutoValue and automatically
+                provides you with a builder!</p>
+
+            <p>Just like <code>AutoValue</code>, it goes and generates code for you at compile time and gets out of your
+                way otherwise.</p>
+
+            <p><code>Jackson</code> serialization and deserialization is a breeze with a simple annotation. No need for
+                a @JsonCreator method in this case.</p>
+
+            <p>Assuming we want nothing fancy, the above is perfectly satisfied with the following.</p>
+
+            <div class="highlight"><pre><span class="nd">@Value.Immutable</span>
+<span class="nd">@JsonSerialize</span><span class="o">(</span><span class="n">as</span> <span class="o">=</span> <span
+                        class="n">ImmutableStudent</span><span class="o">.</span><span class="na">class</span><span
+                        class="o">)</span>
+<span class="nd">@JsonDeserialize</span><span class="o">(</span><span class="n">as</span> <span class="o">=</span> <span
+                        class="n">ImmutableStudent</span><span class="o">.</span><span class="na">class</span><span
+                        class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Student</span> <span
+                        class="o">{</span>
+    <span class="n">String</span> <span class="nf">firstName</span><span class="o">();</span>
+
+    <span class="nd">@Nullable</span>
+    <span class="n">String</span> <span class="nf">lastName</span><span class="o">();</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>And here&#39;s the fancy version (we&#39;re still using the @JsonCreator here for the purposes of
+                catching invalid stuff):</p>
+
+            <div class="highlight"><pre>git checkout -f 10-immutables
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="nd">@Value.Immutable</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Student</span> <span
+                        class="o">{</span>
+    <span class="n">String</span> <span class="nf">firstName</span><span class="o">();</span>
+
+    <span class="nd">@Nullable</span>
+    <span class="n">String</span> <span class="nf">lastName</span><span class="o">();</span>
+
+    <span class="nd">@JsonCreator</span>
+    <span class="kd">static</span> <span class="n">Student</span> <span class="nf">create</span><span class="o">(</span>
+            <span class="nd">@JsonProperty</span><span class="o">(</span><span
+                        class="s">&quot;firstName&quot;</span><span class="o">)</span> <span
+                        class="n">String</span> <span class="n">firstName</span><span class="o">,</span>
+            <span class="nd">@JsonProperty</span><span class="o">(</span><span
+                        class="s">&quot;lastName&quot;</span><span class="o">)</span> <span
+                        class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">firstName</span> <span
+                        class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span
+                        class="k">return</span> <span class="n">invalidStudent</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">ImmutableStudent</span><span class="o">.</span><span class="na">builder</span><span
+                        class="o">()</span>
+                <span class="o">.</span><span class="na">firstName</span><span class="o">(</span><span class="n">firstName</span><span
+                        class="o">)</span>
+                <span class="o">.</span><span class="na">lastName</span><span class="o">(</span><span
+                        class="n">lastName</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="n">Student</span> <span class="n">invalidStudent</span> <span class="o">=</span> <span class="n">ImmutableStudent</span>
+            <span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">firstName</span><span class="o">(</span><span class="s">&quot;Invalid&quot;</span><span
+                        class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>What you want can also be achieved with an abstract class, but an interface saves some keystrokes.
+                Similar to <code>AutoValue</code>,
+                any interface called <code>@Nullable</code> is honoured by the code generator.</p>
+
+            <h4>Other JVM Languages</h4>
+
+            <p>One of the criticisms leveraged against something such as Lombok is that it is extralinguistic (check the
+                <a href="https://docs.google.com/presentation/d/14u_h-lMn7f1rXE1nDiLX0azS3IkgjGl5uxp5jGJ75RE/edit">presentation</a>
+                that&#39;s part of
+                AutoValue&#39;s page). So, if you&#39;re going to be extralinguistic, why not just use another JVM
+                language.</p>
+
+            <p><code>Kotlin</code>, <code>Scala</code> and <code>Groovy</code> to name a few provide solutions to these
+                problems.</p>
+
+            <p>You may have to set your IDE&#39;s source roots to pick up the <code>kotlin</code>, <code>groovy</code>
+                and <code>scala</code>
+                folders to get these to work from within your IDE.</p>
+
+            <p>Here is a bare-bones data class in <code>Groovy</code>:</p>
+
+            <div class="highlight"><pre><span class="kn">import</span> <span
+                    class="nn">groovy.transform.Immutable</span>
+
+<span class="nd">@Immutable</span>
+<span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">firstName</span>
+    <span class="n">String</span> <span class="n">lastName</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>And the same thing in <code>Kotlin</code></p>
+
+            <div class="highlight"><pre><span class="n">data</span> <span class="k">class</span> <span class="nc">Student</span><span
+                    class="p">(</span><span class="k">val</span> <span class="py">firstName</span><span
+                    class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span
+                    class="py">lastName</span><span class="p">:</span> <span class="n">String</span><span
+                    class="p">?)</span>
+</pre>
+            </div>
+            <p>This creates the following:</p>
+
+            <ul>
+                <li>Getters (without setters)</li>
+                <li>A constructor for the arguments</li>
+            </ul>
+
+            <p>That&#39;s it! Both of these can fit in a tweet.</p>
+
+            <p>Adding the other fancy stuff for Json deserialization leads to the following full class (import
+                statements omitted) and
+                the below test for sanitizing input passes just fine.</p>
+
+            <div class="highlight"><pre>git checkout -f 11-groovy
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="nd">@Immutable</span>
+<span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">firstName</span>
+    <span class="n">String</span> <span class="n">lastName</span>
+
+    <span class="nd">@JsonCreator</span>
+    <span class="kd">static</span> <span class="n">Student</span> <span class="nf">create</span><span class="o">(</span><span
+                        class="nd">@JsonProperty</span><span class="o">(</span><span
+                        class="s2">&quot;firstName&quot;</span><span class="o">)</span> <span
+                        class="n">String</span> <span class="n">firstName</span><span class="o">,</span>
+                          <span class="nd">@JsonProperty</span><span class="o">(</span><span class="s2">&quot;lastName&quot;</span><span
+                        class="o">)</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span
+                        class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">firstName</span> <span
+                        class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span
+                        class="k">return</span> <span class="n">invalidStudent</span>
+        <span class="k">new</span> <span class="nf">Student</span><span class="o">(</span><span
+                        class="n">firstName</span><span class="o">,</span> <span class="n">lastName</span><span
+                        class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="n">Student</span> <span class="n">invalidStudent</span> <span class="o">=</span> <span
+                        class="k">new</span> <span class="n">Student</span><span class="o">(</span><span class="s2">&quot;Invalid&quot;</span><span
+                        class="o">,</span> <span class="s2">&quot;Invalid&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <p>References to the static instance will have to change from a field to <code>getInvalidStudent())</code>.
+            </p>
+
+            <p>And the same thing for Kotlin:</p>
+
+            <div class="highlight"><pre>git checkout -f 12-kotlin
+</pre>
+            </div>
+            <div class="highlight"><pre><span class="n">data</span> <span class="k">class</span> <span class="nc">Student</span><span
+                    class="p">(</span><span class="k">val</span> <span class="py">firstName</span><span
+                    class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span
+                    class="py">lastName</span><span class="p">:</span> <span class="n">String</span><span
+                    class="p">?)</span> <span class="p">{</span>
+    <span class="n">companion</span> <span class="k">object</span> <span class="err">{</span>
+        <span class="n">@JsonCreator</span>
+        <span class="n">@JvmStatic</span>
+        <span class="k">fun</span> <span class="nf">create</span><span class="p">(</span>
+                <span class="n">@JsonProperty</span><span class="p">(</span><span class="s">&quot;firstName&quot;</span><span
+                        class="p">)</span> <span class="n">firstName</span><span class="p">:</span> <span class="n">String</span><span
+                        class="p">?,</span>
+                <span class="n">@JsonProperty</span><span class="p">(</span><span
+                        class="s">&quot;lastName&quot;</span><span class="p">)</span> <span
+                        class="n">lastName</span><span class="p">:</span> <span class="n">String</span><span class="p">?):</span> <span
+                        class="n">Student</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">firstName</span> <span class="p">==</span> <span
+                        class="k">null</span><span class="p">)</span> <span class="k">return</span> <span class="n">invalidStudent</span>
+            <span class="k">return</span> <span class="n">Student</span><span class="p">(</span><span class="n">firstName</span><span
+                        class="p">,</span> <span class="n">lastName</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">@JvmField</span> <span class="k">val</span> <span class="py">invalidStudent</span> <span
+                        class="p">=</span> <span class="n">Student</span><span class="p">(</span><span class="s">&quot;Invalid&quot;</span><span
+                        class="p">,</span> <span class="s">&quot;Invalid&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+            </div>
+            <p>The following caveats apply. The <code>@JvmStatic</code> and <code>@JvmField</code> annotations are for
+                Java interop&#39;
+                and allow us to call the method and field as though they are static.</p>
+
+            <div class="highlight"><pre>git checkout -f 13-scala
+</pre>
+            </div>
+            <p>And finally in <code>Scala</code>:</p>
+
+            <div class="highlight"><pre><span class="k">case</span> <span class="k">class</span> <span class="nc">Student</span><span
+                    class="o">(</span><span class="n">firstName</span><span class="k">:</span> <span
+                    class="kt">String</span><span class="o">,</span> <span class="n">lastName</span><span
+                    class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">Student</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">create</span><span class="o">(</span><span class="n">firstName</span><span
+                        class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">lastName</span><span
+                        class="k">:</span> <span class="kt">String</span><span class="o">)</span><span
+                        class="k">:</span> <span class="kt">Student</span> <span class="o">=</span> <span
+                        class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">firstName</span> <span class="o">==</span> <span
+                        class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="n">invalidStudent</span>
+    <span class="nc">Student</span><span class="o">(</span><span class="n">firstName</span><span
+                        class="o">,</span> <span class="n">lastName</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">val</span> <span class="n">invalidStudent</span> <span class="k">=</span> <span
+                        class="k">new</span> <span class="nc">Student</span><span class="o">(</span><span class="s">&quot;Invalid&quot;</span><span
+                        class="o">,</span> <span class="s">&quot;Invalid&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+</pre>
+            </div>
+            <h2>Stray observations</h2>
+
+            <h3>Limit your DTOs to what you&#39;re actually processing</h3>
+
+            <p>One of the biggest mistakes I&#39;ve seen is people who just take the DTOs as they&#39;re defined in the
+                data source
+                and adding all of the fields from there. This leads to IDE warnings amongst other things. You&#39;re
+                also exposing
+                yourself to unnecessary breaking changes if a field that you&#39;re not even using changes in
+                structure.</p>
+
+            <p>Listen to your IDE and git rid of any unused fields and methods. This can be problematic in the case of
+                <code>AutoValue</code>,
+                because even unused fields will show up as used as the code generators implement those fields.</p>
+
+            <h3>Pay close attention to validation on your data source</h3>
+
+            <p>A lot of the techniques described here are reactionary measures due to badly defined data models. We try
+                to limit
+                the defensive coding to a single place -- the deserialization of data, but the best situation is where
+                you don&#39;t
+                need to do any form of defensive coding.</p>
+
+            <h3>Don&#39;t check in generated code</h3>
+
+            <p>This should go without saying, but I&#39;ve seen generated code being checked in, and subsequently
+                modified.</p>
+
+            <p>Don&#39;t do this. Choose life.</p>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
