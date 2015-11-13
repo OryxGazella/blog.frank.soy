@@ -10,10 +10,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/pure/0.6.0/pure-min.css">
   <style type="text/css">
-    .hidden {
-      display: none !important;
-    }
-
     aside {
       background-color: #454747;
       color: #ffbe5e;
@@ -121,7 +117,7 @@
 <header>
   <div class="site-branding">
     <div class="pure-g">
-      <div id="logoRow" class="pure-u-1-8 pure-u-m-1-3 center-aligned hidden">
+      <div class="pure-u-1-8 pure-u-m-1-3 center-aligned">
         <%= image_tag 'logo.svg', :alt => 'logo', :id => 'blogLogo', :class => 'pure-img center-aligned' %>
       </div>
     </div>
@@ -136,12 +132,4 @@
   <%= yield %>
 </div>
 </body>
-<script type="text/javascript">
-  (function() {
-    var blogRow = document.getElementById("logoRow");
-    blogRow.className =
-        blogRow.className.replace
-        (/(?:^|\s)hidden(?!\S)/g, '');
-  }());
-</script>
 </html>
