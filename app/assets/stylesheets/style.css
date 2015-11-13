@@ -81,12 +81,6 @@ textarea {
    Helper classes
    ========================================================================== */
 /*
- * Hide visually and from screen readers:
- */
-.hidden {
-    display: none !important;
-}
-/*
  * Hide only visually, but have it available for screen readers:
  * http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
  */
@@ -215,104 +209,4 @@ textarea {
     h3 {
         page-break-after: avoid;
     }
-}
-aside {
-    background-color: #454747;
-    color: #ffbe5e;
-    text-align: center;
-}
-
-.error h2 {
-    text-align: center;
-    color: #ffbe5e;
-}
-
-.error img {
-    margin-bottom: 1.8em;
-}
-
-body {
-    background-color: #2f3131;
-    color: #f8f1e5;
-    border-image-outset: 0;
-    border-image-repeat: stretch;
-    border-image-slice: 100%;
-    border-image-source: none;
-    border-image-width: 1;
-    border: 2px solid #f8f1e5;
-}
-
-.highlight {
-    background-color: #454747;
-}
-
-em {
-    color: #ffbe5e;
-}
-
-.highlight pre {
-    padding: 0.3em;
-}
-
-header h1 {
-    padding-left: 0.3em;
-    text-align: center;
-}
-
-#blogLogo {
-    width: 100px;
-}
-
-.center-aligned {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
-
-a {
-    color: #f8f1e5;
-}
-
-.main-content {
-    padding: 2em 1em 0;
-}
-
-.site-branding {
-    line-height: 32px;
-    border-bottom: 2px solid #f8f1e5;
-}
-
-.posts-preview div.post-description {
-    background-color: #454747;
-}
-
-.posts-preview a {
-    text-decoration: none;
-}
-
-.posts-preview a:hover {
-    color: #ffbe5e;
-}
-
-.post {
-    padding-bottom: 2em;
-}
-
-.post-title {
-    font-size: 2em;
-    margin-bottom: 0.2em;
-}
-
-.post-body {
-    font-family: Georgia, "Cambria", serif;
-    line-height: 1.8em;
-}
-
-.site-branding img {
-    padding: 0.3em;
-}
-
-.post-meta {
-    font-size: 90%;
-    margin: 0;
 }
