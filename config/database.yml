@@ -2,10 +2,9 @@ development:
   adapter: postgresql
   encoding: unicode
   host: localhost
-  database: blog 
+  database: frank 
   pool: 5
-  username: blog
-  password: blogdeveloper
+  username: frank
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
