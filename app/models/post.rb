@@ -1,5 +1,4 @@
 class Post < ActiveRecord::Base
-  self.per_page = 5
   attr_accessible :body, :rendered_body, :title, :abstract
   before_save :render_body
 
