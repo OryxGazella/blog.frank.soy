@@ -12,12 +12,12 @@ buildscript {
 
 plugins {
     id "org.flywaydb.flyway" version "3.2"
+    id "java"
+    id "groovy"
 }
 
 apply plugin: 'kotlin'
 apply plugin: 'spring-boot'
-apply plugin: 'java'
-apply plugin: 'groovy'
 
 springBoot {
     mainClass = 'soy.frank.blog.Application'
