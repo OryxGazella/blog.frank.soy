@@ -1,4 +1,7 @@
 GazelLa::Application.routes.draw do
+  get "posts/i-code-java-2016.html" => 'StaticPages#i_code_java_2016'
+  get "icj2016", to: redirect('/posts/i-code-java-2016.html')
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
