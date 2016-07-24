@@ -1,8 +1,15 @@
 http://blog.frank.soy
+http://frank.soy/posts/i-code-java-2016.html
+http://blog.frank.soy/posts/i-code-java-2016.html
 http://blog.frank.soy/posts/9
 http://blog.frank.soy/posts/8
 http://blog.frank.soy/posts/7
 http://blog.frank.soy/posts/6
 http://blog.frank.soy/posts/5
 http://blog.frank.soy/posts/3
-
+http://frank.soy/posts/9
+http://frank.soy/posts/8
+http://frank.soy/posts/7
+http://frank.soy/posts/6
+http://frank.soy/posts/5
+http://frank.soy/posts/3
