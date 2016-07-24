@@ -3,7 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Frank's Blog</title>
+  <title>
+    <% if defined?(@post) %>
+        <%= @post.title %>
+    <% else %>
+        Frank's Blog
+    <% end %>
+  </title>
   <meta name="author" content="Frank Smith, inspired by a customized cyanotype theme at http://foxglovesecurity.com/">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
