@@ -1,1 +1,0 @@
-INSERT INTO posts (title, body, rendered_body, created_at, updated_at, abstract, rendered_abstract) VALUES ('TEST_TITLE', 'TEST_BODY', 'TEST_RENDERED', '2013-02-07 23:57:19.147154', '2013-02-07 23:57:19.147154', 'TEST_ABSTRACT', 'TEST_RENDERED');
