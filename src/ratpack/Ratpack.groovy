@@ -1,15 +1,20 @@
 import static io.netty.handler.codec.http.HttpResponseStatus.MOVED_PERMANENTLY
-
 import static ratpack.groovy.Groovy.ratpack
+import asset.pipeline.ratpack.AssetPipelineModule
 
 def old_posts = [9: "DTOs with care",
-                8: "A touch of style",
-                7: "What do to when you have strayed from the path of the Test Driven Ninja",
-                6: "RIP: The Monolithic Blogpost 2012-2012",
-                5: "Coded in Braam: September 2012",
-                3: "Security: art brut"]
+                 8: "A touch of style",
+                 7: "What do to when you have strayed from the path of the Test Driven Ninja",
+                 6: "RIP: The Monolithic Blogpost 2012-2012",
+                 5: "Coded in Braam: September 2012",
+                 3: "Security: art brut"]
 
 ratpack {
+    bindings {
+        module(AssetPipelineModule) { cfg ->
+            cfg.sourcePath("../../../src/assets")
+        }
+    }
     handlers {
         get("icj2016") {
             redirect "/posts/i-code-java-2016.html"
