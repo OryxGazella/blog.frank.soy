@@ -546,22 +546,22 @@ And the same thing for Kotlin:
 git checkout -f 12-kotlin
 ```
 
-``` kotlin
-data class Student(val firstName: String, val lastName: String?) {
-    companion object {
-        @JsonCreator
-        @JvmStatic
-        fun create(
-                @JsonProperty("firstName") firstName: String?,
-                @JsonProperty("lastName") lastName: String?): Student {
-            if (firstName == null) return invalidStudent
-            return Student(firstName, lastName)
-        }
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code><span class="kd">data class</span> <span class="nc">Student</span><span class="p">(</span><span class="kd">val</span> <span class="py">firstName</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="kd">val</span> <span class="py">lastName</span><span class="p">:</span> <span class="n">String</span><span class="p">?)</span> <span class="p">{</span>
+    <span class="k">companion</span> <span class="kd">object</span> <span>{
+        </span><span class="nd">@JsonCreator</span>
+        <span class="nd">@JvmStatic</span>
+        <span class="k">fun</span> <span class="nf">create</span><span class="p">(</span>
+                <span class="n">@JsonProperty</span><span class="p">(</span><span class="s">"firstName"</span><span class="p">)</span> <span class="n">firstName</span><span class="p">:</span> <span class="n">String</span><span class="p">?,</span>
+                <span class="n">@JsonProperty</span><span class="p">(</span><span class="s">"lastName"</span><span class="p">)</span> <span class="n">lastName</span><span class="p">:</span> <span class="n">String</span><span class="p">?):</span> <span class="n">Student</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">firstName</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span> <span class="n">invalidStudent</span>
+            <span class="k">return</span> <span class="n">Student</span><span class="p">(</span><span class="n">firstName</span><span class="p">,</span> <span class="n">lastName</span><span class="p">)</span>
+        <span class="p">}</span>
 
-        @JvmField val invalidStudent = Student("Invalid", "Invalid")
-    }
-}
-```
+        <span class="n">@JvmField</span> <span class="kd">val</span> <span class="py">invalidStudent</span> <span class="p">=</span> <span class="n">Student</span><span class="p">(</span><span class="s">"Invalid"</span><span class="p">,</span> <span class="s">"Invalid"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 The following caveats apply. The `@JvmStatic` and `@JvmField` annotations are for Java interop'
 and allow us to call the method and field as though they are static.
