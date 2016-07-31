@@ -46,3 +46,7 @@ assets {
   //developmentRuntime can be turned off
   developmentRuntime=false
 }
+
+task stage {
+  dependsOn installDist
+}
