@@ -1,0 +1,65 @@
+---
+layout: post
+title:  "What do to when you have strayed from the path of the Test Driven Ninja"
+date:   2013-02-07 23:57:00 +0200
+categories: spock java 
+---
+## The story
+
+As mentioned in my previous posting: [Security Art Brut](http://gazel.la/posts/3), gazel.la is protected by a tenuous thread - a pre shared key for editing content protected by an SSL connection. This pre shared key at the time of writing sits inside of a private git repository. Why the reason for the privacy? Well... the fact that the key is stored inside of git...
+
+If only I had done a bit of research I'd have known that adding config variables (in the case of Heroku) would mean that this site's humble code could have been shared with the world.
+
+<p class="lead">A quick summary: </p>
+
+Here's the [long version](https://devcenter.heroku.com/articles/config-vars) if you're, to quote [The Dude](http://www.imdb.com/character/ch0003518/), not into the whole brevity thing.
+
+1. Create a file called `.env` and add the following: `sensitive_var="SUPERSENSITIVE"`
+2. Access in Ruby code with `ENV['sensitive_var']`
+3. Add `.env` to `.gitignore`
+4. Get access on local development environment with [`foreman`](https://github.com/ddollar/foreman) (or just default the values to some sensible default if none can be read from environmental variables.)
+
+
+Okay, great. We can now share this humble blogging framework with the world. No! I am ashamed; I have skimped on the testing. In fact, have I done any testing?
+
+Surely this elephant is walking on glass legs, certain to buckle under the load of a future feature; each new addition is sure to challenge its brothers for supremacy. 'HERE I AM!' it roars triumphantly. Without tests the existing features have no voice, they get drowned in the shininess of the new; they flee - shadows of the glorious beings they once were. If we're lucky they live together well; I've learnt not to rely on luck.
+
+## The realisation
+
+Bless me compiler/interpreter, for I have sinned. It's been seven months since my last test. After learning of the virtues of TDD, introducing it into my team and actually seeing tests pay for themselves every single day, I have cast them aside. Perhaps it is because I lacked the know-how of testing all of the frameworks I did in my free time. No matter, the gods of Software Engineering demand a sacrifice.
+
+![Test](/img/yuno.jpg)
+
+I'm sorry. And to show how much I regret my choice, I will right this wrong.
+
+## Atonement
+
+I have been described in an interview as a software unit testing zealot. But this former zealot has lost his way. So here he is, ready to rededicate himself to the church of test driven development.
+
+## The rules
+
+### 1. Burn it to the ground.
+
+This is the first test - trial by fire. We begin anew, (`$ git rm . -r && rm * -r`), look for survivors, (`$ ls -all`) and commit ourselves to our quest to write quality code (`$ git commit -m "Delete all untested code"`).
+
+And from the ashes the phoenix rises.
+
+### 2. Document it
+
+Explain what you do and why you do it. When you do, you'll understand it better yourself. There's a very real possibility that you're the only one who'll ever read it anyway...
+
+### 3. Turn it into bite size chunks
+
+With rampant attention span poverty, spare a thought for those who cannot afford to read the long post.
+
+### 4. Release these chunks regularly
+
+Make a commitment as to how regularly we'll do this. Let's say two weeks. One little step in this tutorial every two weeks, surely that is feasible, right? Don't nitpick! We can't wait forever to release something because it has to be "just right."
+
+### 5. Present it to others in a whirlwind tour
+
+If you can get others excited in what you want to do, all the better. Present some session to those who are interested. Make it about two hours long, for those who have the stamina.
+
+### 6. Reference your sources
+
+We reference our sources. We **always** reference our sources. When we reference our sources we don't seem clever. We acknowledge those whose work we built off of and we aid the astute reader to learn more about something that interested them.

@@ -1,0 +1,36 @@
+---
+layout: default
+title: Frank's Blog
+---
+
+<div class="posts-preview">
+  {% for post in site.posts %}
+  <section class="post">
+    <a href="{{post.url}}">
+
+      <header class="post-header">
+        <h2 class="post-title">{{post.title}}</h2>
+
+        <p class="post-meta">
+          <time datetime="<%= post.created_at.iso8601 %>">
+            {% assign dy = post.date | date: "%a" %}
+            {% case dy %}
+            {% when "Tue" %}Tues
+            {% when "Thu" %}Thurs
+            {% else %}{{ dy }},
+            {% endcase %}
+            {{ post.date | date: "%B" }}
+            {{ post.date | date: "%-d" }}
+            {{ post.date | date: "%Y" }}
+          </time>
+        </p>
+      </header>
+    </a>
+
+    <div class="post-description">
+      {{ post.content | truncatewords:100}}
+    </div>
+
+  </section>
+  {% endfor %}
+</div>

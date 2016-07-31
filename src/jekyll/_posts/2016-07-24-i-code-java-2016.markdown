@@ -1,0 +1,75 @@
+---
+layout: post
+title:  "I Code Java 2016"
+date:   2016-07-24 16:00:00 +0200
+categories: spock java 
+---
+
+## Butterflies with Freakin' Laser Beams
+
+I was very honoured to speak at the [I Code Java 2016](http://j-sa.co/)
+conference held at the [focus rooms](http://www.focusrooms.co.za/) on
+the 21st and 22nd of July. Unfortunately I wasn't able to record my
+screen for the talk, but I'll do a screen cast of the content in the
+next two weeks. I'll update this post with the link. I switched out the
+section on where blocks with a fork of the code given at Pavel
+Dabrytski's [great talk](https://www.youtube.com/watch?v=HR8aBqxAUGc) on
+Ping Pong TDD.
+
+## Links
+
+Here are the links for the talk:
+
+-   [Slides](/talks/icj2016/slides.html)
+-   [Butterfly Game -
+    Flutterby](https://github.com/OryxGazella/expressive-tests-with-groovy-and-spock)
+    Includes the source for the slides
+-   [Video Store](https://github.com/OryxGazella/videostore/)
+-   [Roman Numerals in Groovy](https://github.com/OryxGazella/pingpongtdd)
+
+## Further watching and reading
+
+My talk was inspired by many sources, here's a bunch of links that I
+didn't have time to punt during my talk.
+
+### Spock
+
+-   [Testing Java, Groovy, Spring and Web Applications with Spock](https://www.youtube.com/watch?v=GYszXrJtxKA)
+-   [Idiomatic Spock with Rob Fletcher](https://www.youtube.com/watch?v=RuTupC0I59M)
+-   [Official Documentation](http://docs.spockframework.org/)
+
+### Groovy
+
+-   [Groovy in Action, Second
+    Edition](https://www.manning.com/books/groovy-in-action-second-edition)
+    A Wonderful reference/tutorial for the Groovy language. A must have
+    if you plan to write Groovy on a daily basis.
+-   [Advanced Groovy Tips and
+    Tricks](https://www.youtube.com/watch?v=xzc-LoJ0mt0) Despite the
+    name, it's very accessible to Java developers who know little to
+    nothing about Groovy.
+
+### Groovy DSLs
+
+-   [Groovy DSLs: Beginner to
+    Expert](https://www.youtube.com/watch?v=rk9ZR2EkE3g)
+
+### Reactive Extensions
+
+-   [Bodil Stokke: Reactive Game Development For The Discerning
+    Hipster](https://www.youtube.com/watch?v=x8mmAu7ZR9Y)
+-   [Reactive Programming with
+    RxJS](https://pragprog.com/book/smreactjs/reactive-programming-with-rxjs)
+    While the book is good, the source can be tricky to navigate and
+    does not use consistent versions of RxJS (where the API changed). If
+    you do read this book, writing the examples in TypeScript is
+    a must-have.
+
+### Refactoring code
+
+-   [Refactoring - Improving the Design of Existing
+    Code](http://martinfowler.com/books/refactoring.html)
+-   [Clean Code, Episode 3 - Functions - Uncle
+    Bob](https://cleancoders.com/episode/clean-code-episode-3/show) The
+    Video Store refactoring can be found under the "Extras" section of
+    the episode.

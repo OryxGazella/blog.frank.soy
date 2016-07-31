@@ -1,0 +1,315 @@
+<html lang="en"><head><meta charset="UTF=8"><style type="text/css"></style></head> <body><canvas style="position: absolute; top: 0px; left: 0px; " width="900" height="600"></canvas> <script src="/atom.js"></script> <img src="/img/tank.png" id="img_tank" style="display: none;"> <img src="/img/invader.png" id="img_invader" style="display: none;"> <img src="/img/tank_bullet.png" id="img_tank_bullet" style="display: none;"> <img src="/img/invader_bullet.png" id="img_invader_bullet" style="display: none;"> <script>function Invader(initial_x, initial_y, bullet) {
+  var width = 66;
+  var height = 48;
+
+  this.team = Team.Invaders;
+  this.velocity = 50;
+  this.box = new BoundingBox(initial_x, initial_y, width, height);
+  this.active = true;
+  this.image = "invader";
+
+  this.collide = function(other_thing) {
+    if(other_thing.team === Team.Earth){
+        this.active = false;
+    }
+  };
+
+  var number_of_seconds_between_shots = 20;
+  var shoot_countdown = Math.random() * number_of_seconds_between_shots;
+  var its_time_to_shoot = function() {
+    return shoot_countdown <= 0;
+  };
+
+  this.update = function(delta_time) {
+    if(this.active) {
+      shoot_countdown -= delta_time;
+
+      // Shooting
+      if(its_time_to_shoot()) {
+        bullet.shoot(50, this.box.x + (width / 2), this.box.y + (height / 2));
+        shoot_countdown = number_of_seconds_between_shots;
+      }
+
+      // Movement
+      this.box.x += delta_time * this.velocity;
+    }
+  };
+
+  this.invade = function() {
+    this.box.y += 10;
+    this.velocity = this.velocity * -1;
+  };
+
+  return this;
+}
+
+Team = {
+  Invaders: "Invaders",
+  Earth: "Earth"
+};
+
+function BoundingBox(x, y, width, height) {
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+
+  // Left, right, top bottom make the collision comparisons more readable
+  this.left = function() { return this.x; };
+  this.right = function() { return this.x + this.width; };
+  this.top = function() { return this.y; };
+  this.bottom = function() {return this.y + this.height; };
+
+  this.is_colliding_with = function(other_box) {
+    if (this === other_box) { return false; }
+    if (this.bottom() < other_box.top()) { return false; }
+    if (this.top() > other_box.bottom()) { return false; }
+    if (this.right() < other_box.left()) { return false; }
+    if (this.left() > other_box.right()) { return false; }
+
+    return true;
+  };
+
+  return this;
+}
+
+
+function Swarm(invaders, zone_width) {
+  var invader_width = invaders[0].box.width;
+  var left = -1, right = 1;
+
+  this.direction = right;
+  this.box = new BoundingBox(0, 0, 0, 0);
+  this.active = true;
+
+  var min = function(array) {
+    return Math.min.apply(Math, array);
+  };
+
+  var max = function(array) {
+    return Math.max.apply(Math, array);
+  };
+
+  var collect_invader_x_positions = function() {
+    return invaders.filter(function(invader) {
+      return invader.active;
+    }).map(function(invader) {
+      return invader.box.x;
+    });
+  };
+
+  this.update = function() {
+    var min_x = min(collect_invader_x_positions());
+    var max_x = max(collect_invader_x_positions()) + invader_width;
+
+    if(((this.direction == right) && (max_x >= zone_width)) ||
+       ((this.direction == left) && (min_x <= 0))) {
+
+      for(var i = 0; i < invaders.length; i++) {
+        invaders[i].invade();
+      }
+
+      this.direction = this.direction == right ? left : right;
+    }
+  };
+
+  this.collide = function() { };
+
+  return this;
+}
+
+function Painter(context) {
+
+  var find_image = function(id) {
+    return document.getElementById(id);
+  };
+
+  this.images = {
+    tank: find_image("img_tank"),
+    invader: find_image("img_invader"),
+    tank_bullet: find_image("img_tank_bullet"),
+    invader_bullet: find_image("img_invader_bullet")
+  };
+
+  this.draw = function(thing) {
+    if(thing.image) {
+      context.drawImage(this.images[thing.image], thing.box.x, thing.box.y);
+    }
+  };
+
+  this.clear = function() {
+    context.fillStyle = "black";
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+  };
+
+  return this;
+}
+
+function Game(painter, things) {
+  var _this = new atom.Game();
+
+  _this.draw = function() {
+    painter.clear();
+    things.forEach(function(thing) {
+      if(thing.active) {
+        painter.draw(thing);
+      }
+    });
+  };
+
+  _this.update = function(dt) {
+    things.forEach(function(thing) {
+      thing.update(dt, atom.input);
+    });
+
+    this.check_for_collisions();
+  };
+
+  _this.check_for_collisions = function() {
+    things.forEach(function(thing) {
+      things.forEach(function(other_thing) {
+        if(thing.active && other_thing.active) {
+          if(thing.box.is_colliding_with(other_thing.box)) {
+            thing.collide(other_thing);
+            other_thing.collide(thing);
+          }
+        }
+        
+        if(thing.lives === 0){
+            _this.stop();
+        }
+      });
+    });
+  };
+
+  return _this;
+}
+
+function Tank(bullet) {
+  var width = 66;
+  var height = 42;
+  var initial_y = 500;
+  var lives;
+
+  this.team = Team.Earth;
+  this.box = new BoundingBox(0, initial_y, width, height);
+  this.active = true;
+  this.image = "tank";
+  this.lives = 3;
+
+  this.collide = function(other_thing) {
+  if(other_thing.team === Team.Invaders){
+    this.lives = this.lives < 1 ? 0 : this.lives - 1;
+     this.active = (this.lives !== 0); 
+  }
+  };
+
+  this.update = function(delta_time, input) {
+    this.box.x = input.mouse.x - (this.box.width / 2);
+
+    if (input.pressed("shoot")) {
+      if (!bullet.active) {
+        bullet.shoot(-200, input.mouse.x, this.box.y);
+      }
+    }
+  };
+
+  return this;
+}
+
+/*
+ *
+ * As for over here,
+ * it's much harder to say.
+ *
+ */
+
+function Init() {
+  atom.input.bind(atom.button.LEFT, "shoot");
+
+  var painter = new Painter(atom.context);
+  var things = [];
+
+  var bullet = new Bullet();
+  var tank = new Tank(bullet);
+  things.push(bullet);
+  things.push(tank);
+
+  var invaders = [];
+  var column_offset = 70;
+  var row_offset = 60;
+  for(var row = 0; row < 5; row++) {
+    for(var col = 0; col < 10; col++) {
+      var x = col * column_offset;
+      var y = row * row_offset;
+      
+      var invader_bullet = new InvaderBullet();
+      var invader = new Invader(x, y, invader_bullet);
+      
+      invaders.push(invader);
+      things.push(invader_bullet);
+      things.push(invader);
+    }
+  }
+
+  var swarm = new Swarm(invaders, atom.canvas.width);
+  things.push(swarm);
+
+  var game = new Game(painter, things);
+
+  window._game = game;
+
+  game.run();
+}
+
+function InvaderBullet() {
+  var _this = new Bullet();
+
+  _this.team = Team.Invaders;
+  _this.image = "invader_bullet";
+
+  _this.collide = function(other_thing) {
+    if(Object.getPrototypeOf(other_thing) === Tank.prototype) {
+      _this.active = false;
+    }
+  };
+
+  return _this;
+
+}
+
+function Bullet() {
+  var width = 4;
+  var height = 20;
+  var velocity = 0;
+
+  this.team = Team.Earth;
+  this.active = false;
+  this.box = new BoundingBox(0, 0, width, height);
+  this.image = "tank_bullet";
+
+  this.shoot = function(new_velocity, new_x, new_y) {
+    velocity = new_velocity;
+    this.box.x = new_x;
+    this.box.y = new_y;
+    this.active = true;
+  };
+
+  this.update = function(delta_time) {
+    this.box.y = this.box.y + (delta_time * velocity);
+
+    if (this.box.y < 0) {
+      this.active = false;
+    }
+  };
+
+  this.collide = function(other_thing) {
+    if(Object.getPrototypeOf(other_thing) === Invader.prototype) {
+      this.active = false;
+    }
+  };
+
+  return this;
+}
+
+Init();</script></body></html>
