@@ -9,10 +9,10 @@ title: Frank's Blog
     <a href="{{post.url}}">
 
       <header class="post-header">
-        <h2 class="post-title">{{post.title}}</h2>
+        <h2 class="post-title blue">{{post.title}}</h2>
 
         <p class="post-meta">
-          <time datetime="<%= post.created_at.iso8601 %>">
+          <time class="violet" datetime="<%= post.created_at.iso8601 %>">
             {% assign dy = post.date | date: "%a" %}
             {% case dy %}
             {% when "Tue" %}Tues
