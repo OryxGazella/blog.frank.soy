@@ -3,13 +3,24 @@ layout: default
 title: Frank's Blog
 ---
 
+<!--suppress CssUnusedSymbol -->
+<style type="text/css">
+  html.light section.post:nth-child(odd){
+    background-color: #eee8d5;
+  }
+
+  html.dark section.post:nth-child(odd) {
+    background-color: #073642;
+  }
+</style>
+
 <div class="posts-preview">
   {% for post in site.posts %}
   <section class="post">
     <a href="{{post.url}}">
 
       <header class="post-header">
-        <h2 class="post-title blue">{{post.title}}</h2>
+        <h3 class="post-title blue">{{post.title}}</h3>
 
         <p class="post-meta">
           <time class="violet" datetime="<%= post.created_at.iso8601 %>">
