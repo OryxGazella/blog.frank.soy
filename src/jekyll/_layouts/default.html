@@ -9,6 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--suppress CssUnusedSymbol -->
   <style type="text/css">
+    pre * {
+      font-family: "Fira Code", sans-serif;
+    }
+
+
     * {
       color: #657b83;
     }
@@ -167,10 +172,16 @@
     var localStorage = document.localStorage || {};
 
     var loadContentBlockingStyles = function() {
-      var l = document.createElement('link'); l.rel = 'stylesheet';
-      if(localStorage.getItem('mode') === 'light') l.href = "/css/pygments.css";
-      else l.href = "/css/solarized-dark.css"
+      var createLink = function(url) {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = url;
+        return l;
+      }
+      var l;
+      if(localStorage.getItem('mode') === 'light') l = createLink("/css/pygments.css");
+      else l = createLink("/css/solarized-dark.css");
       var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+      h.parentNode.insertBefore(createLink('/css/fira_code.css'), h);
     };
 
     var raf = requestAnimationFrame || mozRequestAnimationFrame ||
