@@ -5,8 +5,6 @@ date:   2015-11-14 00:03:00 +0200
 categories: css 
 ---
 
-## Are we there yet? ##
-
 Well, after letting the domain name for `gazel.la` lapse I was faced with
 getting a new domain name. And with a new domain name comes new challenges,
 like updating the design of this blog with a mobile first design.

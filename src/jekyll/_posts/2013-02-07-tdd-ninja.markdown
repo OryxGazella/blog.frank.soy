@@ -4,8 +4,6 @@ title:  "What do to when you have strayed from the path of the Test Driven Ninja
 date:   2013-02-07 23:57:00 +0200
 categories: spock java 
 ---
-## The story
-
 As mentioned in my previous posting: [Security Art Brut](http://gazel.la/posts/3), gazel.la is protected by a tenuous thread - a pre shared key for editing content protected by an SSL connection. This pre shared key at the time of writing sits inside of a private git repository. Why the reason for the privacy? Well... the fact that the key is stored inside of git...
 
 If only I had done a bit of research I'd have known that adding config variables (in the case of Heroku) would mean that this site's humble code could have been shared with the world.

@@ -3,43 +3,37 @@ layout: default
 title: Frank's Blog
 ---
 
-<!--suppress CssUnusedSymbol -->
-<style type="text/css">
-  html.light section.post:nth-child(odd){
-    background-color: #eee8d5;
-  }
-
-  html.dark section.post:nth-child(odd) {
-    background-color: #073642;
-  }
-</style>
+<h1 id="title" class="center-aligned">Frank's Blog</h1>
 
 <div class="posts-preview">
   {% for post in site.posts %}
   <section class="post">
-    <a href="{{post.url}}">
 
-      <header class="post-header">
-        <h3 class="post-title blue">{{post.title}}</h3>
+    <header class="post-header">
+      <a href="{{post.url}}">
+        <h2 class="post-title">{{post.title}}</h2>
+      </a>
 
-        <p class="post-meta">
-          <time class="violet" datetime="<%= post.created_at.iso8601 %>">
-            {% assign dy = post.date | date: "%a" %}
-            {% case dy %}
-            {% when "Tue" %}Tues
-            {% when "Thu" %}Thurs
-            {% else %}{{ dy }},
-            {% endcase %}
-            {{ post.date | date: "%B" }}
-            {{ post.date | date: "%-d" }}
-            {{ post.date | date: "%Y" }}
-          </time>
-        </p>
-      </header>
-    </a>
+     <hr>
 
-    <div class="post-description">
-      {{ post.content | truncatewords:100}}
+
+      <p class="post-meta">
+        <time datetime="{{ post.date |date: "%F" }}">
+          {% assign dy = post.date | date: "%a" %}
+          {% case dy %}
+          {% when "Tue" %}Tues
+          {% when "Thu" %}Thurs
+          {% else %}{{ dy }},
+          {% endcase %}
+          {{ post.date | date: "%B" }}
+          {{ post.date | date: "%-d" }}
+          {{ post.date | date: "%Y" }}
+        </time>
+      </p>
+    </header>
+
+    <div class="post-preview">
+      {{ post.excerpt}}
     </div>
 
   </section>

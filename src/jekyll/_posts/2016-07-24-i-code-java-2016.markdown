@@ -5,8 +5,6 @@ date:   2016-07-24 16:00:00 +0200
 categories: spock java 
 ---
 
-## Butterflies with Freakin' Laser Beams
-
 I was very honoured to speak at the [I Code Java 2016](http://j-sa.co/)
 conference held at the [focus rooms](http://www.focusrooms.co.za/) on
 the 21st and 22nd of July. Unfortunately I wasn't able to record my

@@ -4,8 +4,6 @@ title:  "DTOs with care"
 date:   2015-11-14 23:15:00 +0200
 categories: dtos 
 ---
-## The Problem
-
 I want to talk about some basic stuff, but it's something that I've seen a great deal in the wild. Badly designed data
 objects. Let's take a sufficiently basic example:
 
@@ -332,7 +330,8 @@ git checkout -f 08-lombok
 ``` java
 @Data
 public class Student {
-    private static final Student invalidStudent = new Student("Invalid", "Invalid");
+    private static final Student invalidStudent = 
+                    new Student("Invalid", "Invalid");
 
     private final String firstName;
     @Nullable
