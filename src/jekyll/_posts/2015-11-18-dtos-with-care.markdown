@@ -388,7 +388,8 @@ public abstract class Student {
     Student() {
     }
 
-    public static Student invalidStudent = new AutoValue_Student("Invalid", "Invalid");
+    public static Student invalidStudent = 
+            new AutoValue_Student("Invalid", "Invalid");
 
     @JsonCreator
     public static Student create(
