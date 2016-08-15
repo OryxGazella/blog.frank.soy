@@ -221,7 +221,7 @@
                 return l;
             }
             var l;
-            if (localStorage.getItem('mode') === 'light') l = createLink("/css/pygments.css");
+            if (localStorage.getItem('mode') === 'light') l = createLink("/css/solarized-light.css");
             else l = createLink("/css/solarized-dark.css");
             var h = document.getElementsByTagName('head')[0];
             h.parentNode.insertBefore(l, h);
