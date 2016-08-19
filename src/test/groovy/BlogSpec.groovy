@@ -25,7 +25,7 @@ class BlogSpec extends GebSpec {
         Old_Post_Id | Post_Title
         "9"         | "DTOs with care"
         "8"         | "A touch of style"
-        "7"         | "What do to when you have strayed from the path of the Test Driven Ninja"
+        "7"         | "What to do when you have strayed from the path of the Test Driven Ninja"
         "6"         | "RIP: The Monolithic Blogpost 2012-2012"
         "5"         | "Coded in Braam: September 2012"
         "3"         | "Security: art brut"
