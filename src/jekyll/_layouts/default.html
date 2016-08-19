@@ -1,3 +1,7 @@
+---
+layout: compress
+---
+
 <!DOCTYPE html>
 <html class="no-js light" lang="en">
 <head>
@@ -205,7 +209,7 @@
     <script type="text/javascript">
         var mode = {
             "active": "light"
-        }
+        };
 
         var localStorage = document.localStorage || {};
 
@@ -215,7 +219,7 @@
                 l.rel = 'stylesheet';
                 l.href = url;
                 return l;
-            }
+            };
             var l;
             if (localStorage.getItem('mode') === 'light') l = createLink("/css/solarized-light.css");
             else l = createLink("/css/solarized-dark.css");
@@ -227,34 +231,34 @@
         var raf = requestAnimationFrame || mozRequestAnimationFrame ||
                 webkitRequestAnimationFrame || msRequestAnimationFrame;
 
-        var domLoaded = false
+        var domLoaded = false;
 
         function makeDark() {
-            if ('dark' === mode.active) return
-            document.getElementsByTagName('html')[0].classList.remove('light')
-            document.getElementsByTagName('html')[0].classList.add('dark')
-            mode.active = 'dark'
-            localStorage.setItem('mode', 'dark')
+            if ('dark' === mode.active) return;
+            document.getElementsByTagName('html')[0].classList.remove('light');
+            document.getElementsByTagName('html')[0].classList.add('dark');
+            mode.active = 'dark';
+            localStorage.setItem('mode', 'dark');
             if (domLoaded) {
-                if (raf) raf(loadContentBlockingStyles)
-                else loadContentBlockingStyles()
+                if (raf) raf(loadContentBlockingStyles);
+                else loadContentBlockingStyles();
             }
         }
 
         function makeLight() {
-            if ('light' === mode.active) return
-            document.getElementsByTagName('html')[0].classList.remove('dark')
-            document.getElementsByTagName('html')[0].classList.add('light')
-            mode.active = 'light'
-            localStorage.setItem('mode', 'light')
+            if ('light' === mode.active) return;
+            document.getElementsByTagName('html')[0].classList.remove('dark');
+            document.getElementsByTagName('html')[0].classList.add('light');
+            mode.active = 'light';
+            localStorage.setItem('mode', 'light');
             if (domLoaded) {
-                if (raf) raf(loadContentBlockingStyles)
-                else loadContentBlockingStyles()
+                if (raf) raf(loadContentBlockingStyles);
+                else loadContentBlockingStyles();
             }
         }
 
 
-        if (localStorage.getItem('mode') === 'dark') makeDark()
+        if (localStorage.getItem('mode') === 'dark') makeDark();
         else (localStorage.setItem('mode', 'light'));
     </script>
 </head>
@@ -285,7 +289,7 @@
 <script>
     if (raf) raf(loadContentBlockingStyles);
     else window.addEventListener('load', loadContentBlockingStyles);
-    domLoaded = true
+    domLoaded = true;
 </script>
 </body>
 </html>
