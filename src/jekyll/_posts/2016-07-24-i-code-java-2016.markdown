@@ -7,9 +7,11 @@ categories: spock java
 
 I was very honoured to speak at the [I Code Java 2016](http://j-sa.co/)
 conference held at the [focus rooms](http://www.focusrooms.co.za/) on
-the 21st and 22nd of July. Unfortunately I wasn't able to record my
-screen for the talk, but I'll do a screen cast of the content in the
-next two weeks. I'll update this post with the link. I switched out the
+the 21st and 22nd of July.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/js7EVbrpQZ0" frameborder="0" allowfullscreen></iframe>
+
+I switched out the
 section on where blocks with a fork of the code given at Pavel
 Dabrytski's [great talk](https://www.youtube.com/watch?v=HR8aBqxAUGc) on
 Ping Pong TDD.
@@ -24,6 +26,7 @@ Here are the links for the talk:
     Includes the source for the slides
 -   [Video Store](https://github.com/OryxGazella/videostore/)
 -   [Roman Numerals in Groovy](https://github.com/OryxGazella/pingpongtdd)
+-   [Youtube Video](https://youtu.be/js7EVbrpQZ0)
 
 ## Further watching and reading
 
