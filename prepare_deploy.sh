@@ -2,7 +2,7 @@
 git clean -dfx
 mkdir -p src/assets/html
 cd src/jekyll
-jekyll build
+bundle exec jekyll build
 mv _site/* ../assets/html
 cd ../..
 rm .gitignore
