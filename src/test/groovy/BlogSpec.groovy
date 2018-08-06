@@ -3,6 +3,8 @@ import ratpack.groovy.test.GroovyRatpackMainApplicationUnderTest
 import spock.lang.Shared
 import spock.lang.Unroll
 
+import static io.netty.handler.codec.http.HttpResponseStatus.FOUND
+
 class BlogSpec extends GebSpec {
 
     @Shared
@@ -29,5 +31,17 @@ class BlogSpec extends GebSpec {
         "6"         | "RIP: The Monolithic Blogpost 2012-2012"
         "5"         | "Coded in Braam: September 2012"
         "3"         | "Security: art brut"
+    }
+
+    def "Issues a redirect to https when the X-Forwarded-Proto is http"() {
+        when:
+        def response = aut.httpClient.requestSpec { spec ->
+            spec.redirects(0)
+            spec.headers.'X-Forwarded-Proto' = ['http']
+        }.get('anything')
+
+        then:
+        response.statusCode == FOUND.code()
+        response.headers.location == "https://localhost/anything"
     }
 }
